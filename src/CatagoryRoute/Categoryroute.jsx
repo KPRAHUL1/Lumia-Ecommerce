@@ -1,0 +1,101 @@
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { motion } from "framer-motion";
+
+import Footer from "../components/footer/Footer";
+import BottomNav2 from "../Bottomnav2/BottomNav";
+import Nav from "../nav-bor/header";
+import ProductCard from "../components/Product/ProductCard";
+
+export default function CategoryRoute() {
+  const { categoryName } = useParams(); // Get category from URL
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const formattedCategory = categoryName.toLowerCase(); // Normalize category name
+        const apiUrl = `http://localhost:5000/api/product?category=${formattedCategory}`;
+        console.log("Fetching from API with URL:", apiUrl);
+        const response = await axios.get(apiUrl);
+        console.log("API Response:", response.data);
+  
+        // Filter products by category name (based on the API response)
+        const filteredProducts = response.data.filter(
+          (product) => product.category.name.toLowerCase() === categoryName.toLowerCase()
+        );
+        setProducts(filteredProducts);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        const message =
+          err.response && err.response.data && err.response.data.message
+            ? err.response.data.message
+            : "An unexpected error occurred.";
+        setError(message);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProducts();
+  }, [categoryName]); // Dependency on categoryName to refetch on change
+   // Dependency on categoryName to refetch on change
+   // Fetch products whenever categoryName changes (triggered by route change)
+
+  return (
+    <>
+      <Nav />
+      <section className="min-h-screen">
+        <nav className="px-4 py-4">
+          <p>
+            <Link className="text-blue-600" to="/">Home</Link> {">"} <span>{categoryName}</span>
+          </p>
+        </nav>
+
+        {loading ? (
+          <div className="text-center py-4">Loading...</div>
+        ) : error ? (
+          <div className="text-red-600 text-center py-4">{error}</div>
+        ) : (
+          <motion.div
+            className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 lg:mx-40 pb-10"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            viewport={{ once: false, amount: 0.2 }}
+          >
+            {products.map((product) => (
+              <motion.div
+                key={product.id}
+                className="px-2"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                viewport={{ once: false, amount: 0.2 }}
+              >
+                <ProductCard
+                  id={product.id}
+                  images={Array.isArray(product.imageUrls) ? product.imageUrls : [product.imageUrls] || []} // Ensure images is always an array
+                  title={product.name}
+                  description={product.description}
+                  price={product.price}
+                  colors={product.colors || []}
+                  materials={product.materials || []}
+                  sizes={product.sizes || []}
+                  subscription={product.subscription || false}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </section>
+
+      <Footer />
+      <BottomNav2 />
+    </>
+  );
+}
