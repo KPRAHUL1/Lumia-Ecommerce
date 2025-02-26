@@ -1,54 +1,49 @@
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import { useState, useEffect } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import Carosalshoe from "./CarosalShoe";
 
-export default function Shoecarosal(){
-  const Cards=[
-    { image: 'shoe1.1.webp',image1:'shoe2.1.webp', title: 'CLORKS', description: 'Down Jacket Winter.', money: '$37' ,subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish  etc." },
-    { image: 'shoe1.2.webp',image1:'shoe2.2.webp', title: 'CALVIN KLEIN', description: 'Loose Padded Jacket', money: '$32' ,subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish  etc."},
-    { image: 'shoe1.3.webp',image1:'shoe2.3.webp', title: 'CANVERSE', description: 'Satin Padded Jacket', money: '$46' ,subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish , etc."},
-    { image: 'shoe1.4.webp',image1:'shoe2.4.webp', title: 'CALVIN KLEIN', description: 'Padded Short Jacket', money: '$42' ,subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish  etc."},
-    { image: 'shoe1.5.webp',image1:'shoe2.5.webp', title: 'CANVERSE', description: "Men's Padded Jacket", money: '$48' ,subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish   etc."},
-    { image: 'shoe1.6.webp',image1:'shoe2.6.webp', title: 'CLORKS', description: 'Down Jacket Winter.', money: '$37',subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish   etc." },
-    { image: 'shoe1.7.webp',image1:'shoe2.7.webp', title: 'CALVIN KLEIN', description: 'Loose Padded Jacket', money: '$32',subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish   etc." },
-    { image: 'shoe1.8.webp',image1:'shoe2.8.webp', title: 'CANVERSE', description: 'Satin Padded Jacket', money: '$46' ,subtitle:"Sneakers are flexible, enduring, sporting footwear. This versatile casual shoe design is available in stylish ,etc."},
-  ];
-  
-  const responsive = {
-  
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
+export default function Shoecarosal() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/product")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+      { breakpoint: 425, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+    ],
   };
- 
-return(
 
-    <>
-    <div className="xl:mx-20 mt-10"> 
-    <Carousel responsive={responsive} transitionDuration={500} 
-  draggable={false}
-   keyBoardControl={true} removeArrowOnDeviceType={[ "mobile"]}  dotListClass="custom-dot-list-style" className="z-30">
-{Cards.map((category, index ) => (
-<Carosalshoe key={index} image={category.image} image1={category.image1} subtitle={category.subtitle} title={category.title} money={category.money} description={category.description} />
-))}
-</Carousel>
+  return (
+    <div className="overflow-hidden mt-10 xl:px-20">
+      <Slider {...settings}>
+        {products
+          .filter((product) => product.categoryId === "fd35a4d0-f1e4-4b4d-99b9-3cd970ce16d1") // Filter Sneakers Category
+          .map((product) => (
+            <div key={product._id} className="px-2">
+              <Carosalshoe
+                id={product.id}
+                 images={Array.isArray(product.imageUrls) ? product.imageUrls : [product.imageUrls] || []}
+                title={product.name}
+                description={product.description}
+                money={`$${product.price}`}
+                subtitle="High-quality sneakers for your style"
+              />
+            </div>
+          ))}
+      </Slider>
     </div>
-    </>
-  )
-
+  );
 }
-

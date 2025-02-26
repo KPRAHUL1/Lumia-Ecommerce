@@ -33,10 +33,10 @@ function App() {
     <Marquee/>
     <Carts/>
     <ProductShowcase/>
+    <LookbookSection/>
     {/* <ProductShowcase1/> */}
     {/* <ShoppingCart/>  */}
     <Shoessection/>
-    <LookbookSection/>
     <Our_Brands/>
     <People/>
     <Image_collection/>

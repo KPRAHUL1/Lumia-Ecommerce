@@ -7,6 +7,7 @@ import Footer from "../components/footer/Footer";
 import BottomNav2 from "../Bottomnav2/BottomNav";
 import Nav from "../nav-bor/header";
 import ProductCard from "../components/Product/ProductCard";
+import CategorySection from "../ShoppingRoute/categorysection";
 
 export default function CategoryRoute() {
   const { categoryName } = useParams(); // Get category from URL
@@ -42,31 +43,32 @@ export default function CategoryRoute() {
     };
   
     fetchProducts();
-  }, [categoryName]); // Dependency on categoryName to refetch on change
-   // Dependency on categoryName to refetch on change
-   // Fetch products whenever categoryName changes (triggered by route change)
+  }, [categoryName]); // Fetch products when category changes
 
   return (
     <>
       <Nav />
-      <section className="min-h-screen">
-        <nav className="px-4 py-4">
+      <nav className="px-4 py-4 bg-gray-50">
           <p>
             <Link className="text-blue-600" to="/">Home</Link> {">"} <span>{categoryName}</span>
           </p>
-        </nav>
+      </nav>
 
+      {/* Pass categoryName to CategorySection */}
+      <CategorySection categoryName={categoryName} />
+
+      <section className="min-h-screen bg-gray-50">
         {loading ? (
           <div className="text-center py-4">Loading...</div>
         ) : error ? (
           <div className="text-red-600 text-center py-4">{error}</div>
         ) : (
           <motion.div
-            className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 lg:mx-40 pb-10"
+            className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4 lg:mx-40 pb-10"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            viewport={{ once: false, amount: 0.2 }}
+           
           >
             {products.map((product) => (
               <motion.div

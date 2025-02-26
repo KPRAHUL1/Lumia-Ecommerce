@@ -20,7 +20,7 @@ export default function Icondata(){
     ]
 return(
     <>
-    <div className="grid grid-flow-col items-center grid-rows-2 justify-center gap-4 md:flex md:flex-row md:justify-center lg:gap-16 "> 
+    <div className=" flex flex-row flex-wrap gap-3 space-y-3 justify-center place-items-center items-center"> 
           {icons.map((icon,index) =>(   
       <Icons key={index} image={icon.image} title={icon.title} description={icon.description}/>
      ))}

@@ -31,7 +31,7 @@ const ProductCard = ({
     <motion.div
       className="bg-white p-4 rounded-2xl shadow-md relative transition-all duration-300 overflow-hidden z-0 cursor-pointer"
       // onClick={handleProductClick} // Trigger navigation on click
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ }}
       transition={{ type: "easeIn", duration: 0.3 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -44,7 +44,7 @@ const ProductCard = ({
         onClick={handleProductClick}
         className="rounded-lg w-full object-cover"
         initial={{ opacity: 0.8 }}
-        animate={{ opacity: 1, scale: hovered ? 1.05 : 1 }}
+        animate={{ opacity: 1, }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
       />
@@ -80,7 +80,16 @@ const ProductCard = ({
       </button>
 
       {/* Product Title */}
-      <div className="flex flex-col justify-center items-center gap-3">
+      <div className="flex flex-col justify-center items-center gap-3 mt-2">
+      <div className="flex gap-2 mt-1">
+            {colors.length > 0 ? (
+              colors.map((color, index) => (
+                <div key={index} className="w-8 h-8 rounded border" style={{ backgroundColor: color }} />
+              ))
+            ) : (
+              <p>No colors available</p>
+            )}
+          </div>
         <h3 className="text-center font-bold text-gray-900 mt-3">{title}</h3>
         <h6 className="text-gray-600">{description}</h6>
         <h3 className="text-lg font-semibold">${price}</h3>
@@ -89,8 +98,8 @@ const ProductCard = ({
       {/* Hover Details */}
       <motion.div
         className="absolute bottom-0 left-0 w-full bg-white p-3 rounded-b-2xl shadow-lg flex flex-col justify-center items-center"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: hovered ? 0 : 50, opacity: hovered ? 1 : 0 }}
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: hovered ? 0 : 40, opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         {/* Colors */}

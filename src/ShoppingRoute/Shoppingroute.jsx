@@ -4,7 +4,7 @@ import { Dropdown } from "flowbite-react";
 import Footer from "../Footer-section/footer";
 import Nav from "../nav-bor/header";
 
-import People from "../PeoplesSay/people";
+
 
 export default function ShoppingRoute() {
     const { productId } = useParams();  // Get product ID from URL parameters
@@ -47,14 +47,15 @@ export default function ShoppingRoute() {
     return (
         <section>
             <Nav />
+            
             <div className="grid lg:grid lg:grid-cols-2 lg:mx-40 lg:mt-40">
-                <div className="space-y-5">
+                <div className="space-y-">
                     <div>
                         {/* Displaying first product image */}
                         <img 
                             src={product.imageUrls && Array.isArray(product.imageUrls) ? `http://localhost:5000/${product.imageUrls[0]}` : 'default_image.jpg'} 
                             alt={product.name || 'Product'} 
-                            className="rounded-xl" 
+                            className="rounded-xl w-full h-full" 
                         />
                     </div>
                     <div>
@@ -182,7 +183,7 @@ export default function ShoppingRoute() {
                 </div>
             </div>
 
-            <People />
+
             <Footer />
         </section>
     );

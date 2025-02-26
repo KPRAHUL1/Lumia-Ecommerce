@@ -8,7 +8,7 @@ export default function People_Image(props) {
 
   return (
     <>
-      <div className="grid grid-cols-1 p-5 text-center justify-items-center border-2 rounded-xl gap-5 mx-5 xl:mx-0 my-6 bg-white shadow">
+      <div className="grid grid-cols-1 p-5 text-center justify-items-center  rounded-xl gap-5 mx-5 xl:mx-0 my-6 bg-white ">
         <h4>{titles}</h4>
         <p className="">{tag}</p>
 
@@ -27,12 +27,12 @@ export default function People_Image(props) {
         />
       </div>
 
-        <div className="flex">
-          <i className={star}></i>
-          <i className={star}></i>
-          <i className={star}></i>
-          <i className={star}></i>
-          <i className={star}></i>
+        <div className="flex flex-row gap-2">
+          <img src={star} className="w-4"/>
+          <img src={star} className="w-4"/>
+          <img src={star} className="w-4"/>
+          <img src={star} className="w-4"/>
+          <img src={star} className="w-4"/>
         </div>
         <h4 className="text-gray-500">{subtitle}</h4>
         <p className="text-sm text-gray-400">{description}</p>

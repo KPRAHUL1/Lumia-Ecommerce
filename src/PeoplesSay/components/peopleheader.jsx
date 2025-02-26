@@ -1,7 +1,7 @@
 import People_Image from "./peopleimages";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-
+import star from "../../assets/icons/star.png"
 export default function People_header() {
 
 
@@ -11,7 +11,7 @@ export default function People_header() {
             tag: "jacket",
             images: "people1.1.avif",
             images1:"circle1.avif",
-            star: "fa-solid fa-star text-sm",
+            star: star,
             subtitle: "Padded short jacket",
             description: "This jacket is fantastic! I receive praises on the fit, color, and length every time I wear it. On a cold day, it helps me stay warm. I can wear a sweater, even a cardigan, without feeling constrained. "
         },
